@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>JS Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+        p {
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="head">JS Example</h1>
+
+    <form action="home.html" onsubmit="return validate()">
+        <label for="username">Username:</label> 
+        <input type="text" id="username" name="username" onkeyup="changeText()"/> 
+        <p id="usererror" style="color: red;"></p>
+        <p id="msg" style="color: red;"></p>  
+
+        <label for="password">Password:</label> 
+        <input type="password" id="password" name="password"/> 
+        <p id="passerror" style="color: red;"></p>
+
+        <input type="submit" value="Submit"/>
+        <p id="validerror" style="color: red;"></p>
+    </form>
+
+    <script>
+        function changeText(){
+            let username = document.getElementById('username').value.trim();
+            let msg = document.getElementById('msg');
+
+            if(username === ""){
+                msg.innerHTML = "Please type username first!";
+            } else {
+                document.getElementById('head').innerHTML = username;
+                msg.innerHTML = "";
+            }
+        }
+
+        function validate(){
+            let username = document.getElementById('username').value.trim();
+            let password = document.getElementById('password').value.trim();
+            let userError = document.getElementById('usererror');
+            let passError = document.getElementById('passerror');
+            let validError = document.getElementById('validerror');
+
+            userError.innerHTML = "";
+            passError.innerHTML = "";
+            validError.innerHTML = "";
+
+            // Username validation
+            if(username === ""){
+                userError.innerHTML = "Username cannot be empty!";
+                return false;
+            }
+            if(username.length < 3){
+                userError.innerHTML = "Username must be at least 3 characters!";
+                return false;
+            }
+
+            // Password validation
+            if(password === ""){
+                passError.innerHTML = "Password cannot be empty!";
+                return false;
+            }
+            if(password.length < 6){
+                passError.innerHTML = "Password must be at least 6 characters!";
+                return false;
+           
+
+            // Username and password must not be the same
+            if(username === password){
+                validError.innerHTML = "Username and password cannot be the same!";
+                return false;
+            }
+
+            return true; // Allow form submission if all checks pass
+        }
+    </script>
+
+</body>
+</html>
