@@ -1,0 +1,54 @@
+
+<html>
+<head>
+    <title>Name Validation</title>
+    <script>
+        function validateName() {
+            const nameInput = document.getElementById("name");
+            const name = nameInput.value.trim();
+            
+            // Validation Rule i: Cannot be empty
+            if (name === "") {
+                alert("Name cannot be empty");
+                return false;
+            }
+            
+            // Validation Rule iv: Must start with a letter
+            const firstChar = name.charAt(0);
+            if (!((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z'))) {
+                alert("Name must start with a letter");
+                return false;
+            }
+            
+            // Validation Rule ii: Contains at least two words
+            const words = name.split(' ');
+            if (words.length < 2) {
+                alert("Name must contain at least two words");
+                return false;
+            }
+            
+            // Validation Rule iii: Can contain a-z or A-Z or dot(.) or dash(-)
+            for (let i = 0; i < name.length; i++) {
+                const char = name.charAt(i);
+                if (!((char >= 'a' && char <= 'z') || 
+                      (char >= 'A' && char <= 'Z') || 
+                      char === ' ' || 
+                      char === '.' || 
+                      char === '-')) {
+                    alert("Name can only contain letters, spaces, dots(.), or dashes(-)");
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Name Validation</h2>
+    <form onsubmit="return validateName()">
+        <input type="text" id="name" placeholder="Name">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

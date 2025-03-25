@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Validation</title>
+    <style>
+        .info-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 12px;
+            cursor: help;
+            margin-left: 5px;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+    <script>
+        function validateEmail() {
+            const emailInput = document.getElementById("email");
+            const email = emailInput.value.trim();
+            
+            // Validation Rule i: Cannot be empty
+            if (email === "") {
+                alert("Email cannot be empty");
+                return false;
+            }
+            
+            // Validation Rule ii: Must be a valid email address
+            let atFound = false;
+            let dotAfterAt = false;
+            
+            for (let i = 0; i < email.length; i++) {
+                const char = email.charAt(i);
+                
+                if (char === '@') {
+                    if (atFound) { // more than one @
+                        alert("Invalid email format");
+                        return false;
+                    }
+                    atFound = true;
+                    // Check if there's at least one character before @
+                    if (i === 0) {
+                        alert("Invalid email format");
+                        return false;
+                    }
+                }
+                
+                if (atFound && char === '.') {
+                    // Check if there's at least one character between @ and .
+                    if (i - email.indexOf('@') <= 1) {
+                        alert("Invalid email format");
+                        return false;
+                    }
+                    dotAfterAt = true;
+                }
+            }
+            
+            if (!atFound || !dotAfterAt) {
+                alert("Invalid email format");
+                return false;
+            }
+            
+            // Check if there's at least one character after the last dot
+            const lastDotPos = email.lastIndexOf('.');
+            if (lastDotPos === email.length - 1) {
+                alert("Invalid email format");
+                return false;
+            }
+            
+            return true;
+        }
+
+        function showHint() {
+            const tooltip = document.getElementById("emailHint");
+            tooltip.style.display = "block";
+            setTimeout(() => {
+                tooltip.style.display = "none";
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
+</head>
+<body>
+    <h2>Email Validation</h2>
+    <form onsubmit="return validateEmail()">
+        <div style="position: relative; display: inline-block;">
+            <input type="text" id="email" placeholder="sample@example.com">
+            <span class="info-icon" onclick="showHint()" onmouseover="showHint()">i</span>
+            <div id="emailHint" class="tooltip">
+                Please enter a valid email address (e.g., sample@example.com)
+            </div>
+        </div>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
